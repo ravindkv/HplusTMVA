@@ -1,0 +1,44 @@
+Date: XXX
+Description: H+, CCC +jets, mass YYY GeV, lumi=ZZZ fb-1
+----------------------------------------------------------------------------------------------------------------------
+imax   1  number of channels
+jmax   *  number of backgrounds
+kmax   *  number of nuisance parameters
+---------------------------------------------------------------------------------------------------------------------
+shapes * * XXX.root $PROCESS $PROCESS_$SYSTEMATIC
+---------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------
+Observation    XXX
+---------------------------------------------------------------------------------------------------------------------
+bin                     cat1      cat1        cat1       cat1        cat1        cat1        cat1       cat1      cat1
+process                 HHXXX     WHYYY       ttbar      ttll        wjet        zjet        stop       diboson   qcd
+process                  -1         0          1          2           3           4           5           6        7
+----------------------------------------------------------------------------------------------------------------------
+rate                        
+----------------------------------------------------------------------------------------------------------------------
+lumi               lnN   1.00      1.027      1.027     1.00        1.027        1.027      1.027     1.027   1.00  Luminosity Error
+CMS_eff_mu         lnN   1.00      1.03      1.03     1.00        1.03        1.03      1.03     1.03   1.00  Lepton Efficiency
+CMS_stat_hh        lnN   1.00      1.00       1.00      1.00        1.00         1.00       1.00      1.00    1.00  HH MC stat
+CMS_stat_wh        lnN   1.00      XXXX       1.00      1.00        1.00         1.00       1.00      1.00    1.00  WH MC stat
+CMS_stat_tt        lnN   1.00      1.00       XXXX      1.00        1.00         1.00       1.00      1.00    1.00  ttbar MC stat
+CMS_stat_wjet      lnN   1.00      1.00       1.00      1.00        XXXX         1.00       1.00      1.00    1.00  W+jets MC stat
+CMS_stat_zjet      lnN   1.00      1.00       1.00      1.00        1.00         XXXX       1.00      1.00    1.00  Zjet MC stat
+CMS_stat_stop      lnN   1.00      1.00       1.00      1.00        1.00         1.00       XXXX      1.00    1.00  single top MC stat
+CMS_stat_vv        lnN   1.00      1.00       1.00      1.00        1.00         1.00       1.00      XXXX    1.00  diboson MC stat
+CMS_stat_qcd       lnN   1.00      1.00       1.00      1.00        1.00         1.00       1.00      1.00    XXXX  qcd data-driven stat
+CMS_norm_tt        lnN   1.00      1.061      1.061     1.00        1.00         1.00       1.00      1.00    1.00  ttbar cross-section
+CMS_norm_stop      lnN   1.00      1.00       1.00      1.00        1.00         1.00       1.07      1.00    1.00  singleTop cross-section
+CMS_norm_wjet      lnN   1.00      1.00       1.00      1.00        1.045        1.00       1.00      1.00    1.00  W->ll cross section
+CMS_norm_zjet      lnN   1.00      1.00       1.00      1.00        1.00         1.05       1.00      1.00    1.00  Z->ll cross section
+CMS_norm_qcd       lnN   1.00      1.00       1.00      1.00        1.00         1.00       1.00      1.00    QQQQ  qcd cross section data-driven
+CMS_norm_vv        lnN   1.00      1.00       1.00      1.00        1.00         1.00       1.00      1.04    1.00  VV cross section
+Pileup            shape  1.00      1.00       1.00      1.00          -           -         1.00       -       -    pileup Up/Down
+bTag              shape  1.00      1.00       1.00      1.00          -           -         1.00       -       -    bTag Up/Down    
+cTag              shape  1.00      1.00       1.00      1.00          -           -         1.00       -       -    cTag Up/Down    
+JES               shape  1.00      1.00       1.00      1.00          -           -         1.00       -       -    JES Up/Down    
+JER               shape  1.00      1.00       1.00      1.00          -           -         1.00       -       -    JER Up/Down
+topPt             shape   -        1.00       1.00        -           -           -          -         -       -    topPt Up/Down
+scale             shape   -         -         1.00        -           -           -          -         -       -    scale Up/Down
+matching          shape   -         -         1.00        -           -           -          -         -       -    matching Up/Down 
+mass              shape   -         -         1.00        -           -           -          -         -       -    mass Up/Down 
+* autoMCStats 9 1
