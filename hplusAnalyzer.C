@@ -217,7 +217,6 @@ void hplusAnalyzer::CutFlowProcessor(TString url,  string myKey, TString cutflow
   // Create a TMVA reader
   //TMVA::Reader reader("Color=True");
   double kfCount = 0;
-  float Weight = 1.0;
   /*
   double muonPt = 0.0;
   double mjj_BTag = 0.0;
@@ -228,18 +227,99 @@ void hplusAnalyzer::CutFlowProcessor(TString url,  string myKey, TString cutflow
   */
 
   // Tree after KinFit
-  float mjj_KinFit = 0.0;
-  float pt_bjetHad_KinFit = 0.0;
-  float eta_bjetHad_KinFit = 0.0;
-  float pfCCvsL0_KinFit = 0.0;
-  float pfCCvsL1_KinFit = 0.0;
-  float pfCCvsB0_KinFit =0.0;
-  float pfCCvsB1_KinFit =0.0;
+  float Weight  = 1.0;
+  //hadronic
+  float pt_b1   = 0.0;
+  float eta_b1  = 0.0;
+  float phi_b1  = 0.0;
+  float E_b1    = 0.0;
+  float pt_j1   = 0.0;
+  float eta_j1  = 0.0;
+  float phi_j1  = 0.0;
+  float E_j1    = 0.0;
+  float pt_j2   = 0.0;
+  float eta_j2  = 0.0;
+  float phi_j2  = 0.0;
+  float E_j2    = 0.0;
+  //leptonic
+  float pt_b2   = 0.0;
+  float eta_b2  = 0.0;
+  float phi_b2  = 0.0;
+  float E_b2    = 0.0;
+  float pt_l    = 0.0;
+  float eta_l   = 0.0;
+  float phi_l   = 0.0;
+  float E_l     = 0.0;
+  float pt_v    = 0.0;
+  float eta_v   = 0.0;
+  float phi_v   = 0.0;
+  float E_v     = 0.0;
+  //HT, MT
+  float ht_b1b2j1j2= 0.0;
+  float MT_j1j2    = 0.0;
+  //mass
+  float m_j1j2      = 0.0;
+  float m_lv        = 0.0;
+  float m_b1b2      = 0.0;
+  float m_b1j1j2b2lv= 0.0;
+  //others
+  float dPhi_j1j2     = 0.0;
+  float cTagDiscr1_j1 = 0.0;
+  float cTagDiscr2_j1 = 0.0;
+  float cTagDiscr1_j2 = 0.0;
+  float cTagDiscr2_j2 = 0.0;
+  float bTagDiscr_b1  = 0.0;
+  float bTagDiscr_b2  = 0.0;
+
+  //create branch
+  TTree *t_KinFit = new TTree("KinFit","My test tree");
+  t_KinFit->Branch("Weight"    ,&Weight    );
+  //hadronic
+  t_KinFit->Branch("pt_b1"     ,&pt_b1      );
+  t_KinFit->Branch("eta_b1"    ,&eta_b1     );
+  t_KinFit->Branch("phi_b1"    ,&phi_b1     );
+  t_KinFit->Branch("E_b1"      ,&E_b1       );
+  t_KinFit->Branch("pt_j1"     ,&pt_j1      );
+  t_KinFit->Branch("eta_j1"    ,&eta_j1     );
+  t_KinFit->Branch("phi_j1"    ,&phi_j1     );
+  t_KinFit->Branch("E_j1"      ,&E_j1       );
+  t_KinFit->Branch("pt_j2"     ,&pt_j2      );
+  t_KinFit->Branch("eta_j2"    ,&eta_j2     );
+  t_KinFit->Branch("phi_j2"    ,&phi_j2     );
+  t_KinFit->Branch("E_j2"      ,&E_j2       );
+  //leptonic
+  t_KinFit->Branch("pt_b2"     ,&pt_b2      );
+  t_KinFit->Branch("eta_b2"    ,&eta_b2     );
+  t_KinFit->Branch("phi_b2"    ,&phi_b2     );
+  t_KinFit->Branch("E_b2"      ,&E_b2       );
+  t_KinFit->Branch("pt_l"      ,&pt_l      );
+  t_KinFit->Branch("eta_l"     ,&eta_l     );
+  t_KinFit->Branch("phi_l"     ,&phi_l     );
+  t_KinFit->Branch("E_l"       ,&E_l       );
+  t_KinFit->Branch("pt_v"      ,&pt_v      );
+  t_KinFit->Branch("eta_v"     ,&eta_v     );
+  t_KinFit->Branch("phi_v"     ,&phi_v     );
+  t_KinFit->Branch("E_v"       ,&E_v       );
+  //mass
+  t_KinFit->Branch("ht_b1b2j1j2"  ,&ht_b1b2j1j2);
+  t_KinFit->Branch("MT_j1j2"      ,&MT_j1j2    );
+  t_KinFit->Branch("m_j1j2"       ,&m_j1j2      );
+  t_KinFit->Branch("m_lv"         ,&m_lv        );
+  t_KinFit->Branch("m_b1b2"       ,&m_b1b2      );
+  t_KinFit->Branch("m_b1j1j2b2lv",&m_b1j1j2b2lv);
+  //other
+  t_KinFit->Branch("dPhi_j1j2"     ,&dPhi_j1j2    );
+  t_KinFit->Branch("cTagDiscr1_j1" ,&cTagDiscr1_j1);
+  t_KinFit->Branch("cTagDiscr2_j1" ,&cTagDiscr2_j1);
+  t_KinFit->Branch("cTagDiscr1_j2" ,&cTagDiscr1_j2);
+  t_KinFit->Branch("cTagDiscr2_j2" ,&cTagDiscr2_j2);
+  t_KinFit->Branch("bTagDiscr_b1"  ,&bTagDiscr_b1 );
+  t_KinFit->Branch("bTagDiscr_b2"  ,&bTagDiscr_b2 );
+ 
   /*
   float bdisc_HadbJet_KinFit = 0.0;
   float bdisc_LepbJet_KinFit = 0.0;
   float mbb_KinFit = 0.0;
-
   // add variables to the reader 
   reader.AddVariable("mjj_KinFit",&mjj_KinFit);
   reader.AddVariable("pt_bjetHad_KinFit",&pt_bjetHad_KinFit);
@@ -254,19 +334,10 @@ void hplusAnalyzer::CutFlowProcessor(TString url,  string myKey, TString cutflow
   */
   // Book the neural network with backpropagation
   //reader.BookMVA("BDT", "weights/HtoCSbar_MVA_80X_Mu_Channel_BDT.weights.xml");
-  TTree *t_KinFit = new TTree("KinFit","My test tree");
-  t_KinFit->Branch("Weight",&Weight);
-  t_KinFit->Branch("mjj_KinFit",&mjj_KinFit);
-  t_KinFit->Branch("pt_bjetHad_KinFit",&pt_bjetHad_KinFit);
-  t_KinFit->Branch("eta_bjetHad_KinFit",&eta_bjetHad_KinFit);
-  t_KinFit->Branch("pfCCvsL0_KinFit",&pfCCvsL0_KinFit);
-  t_KinFit->Branch("pfCCvsL1_KinFit",&pfCCvsL1_KinFit);
-  t_KinFit->Branch("pfCCvsB0_KinFit",&pfCCvsB0_KinFit);
-  t_KinFit->Branch("pfCCvsB1_KinFit",&pfCCvsB1_KinFit);
   /*
-  t_KinFit->Branch("bdisc_HadbJet_KinFit",&bdisc_HadbJet_KinFit);
-  t_KinFit->Branch("bdisc_LepbJet_KinFit",&bdisc_LepbJet_KinFit);
-  t_KinFit->Branch("mbb_KinFit",&mbb_KinFit);
+  t_KinFit->Branch("bdisc_HadbJet",&bdisc_HadbJet_KinFit);
+  t_KinFit->Branch("bdisc_LepbJet",&bdisc_LepbJet_KinFit);
+  t_KinFit->Branch("mbb",&mbb_KinFit);
   */
   //---------------------------------------------------//
   //loop over each event, of the ntuple
@@ -833,6 +904,14 @@ void hplusAnalyzer::CutFlowProcessor(TString url,  string myKey, TString cutflow
     nCutPass++;
     fillHisto(outFile_, cutflowType_, "", "cutflow", 10, 0.5, 10.5, nCutPass, evtWeight );
     MyLorentzVector diJetKF = kfLightJets[0]+kfLightJets[1];
+    //MyLorentzVector mTop  = kfLightJets[0]+kfLightJets[1];
+    MyLorentzVector mThad = kfJets[0]+kfJets[1]+kfJets[2];
+    MyLorentzVector mTlep = kfJetsLepB[0]+kfLepton[0]+kfMet[0];
+    MyLorentzVector mWlep = kfLepton[0]+kfMet[0];
+    fillHisto(outFile_, cutflowType_, "KinFit", "massHadW", 60, 0, 300, diJetKF.mass(), evtWeight );
+    fillHisto(outFile_, cutflowType_, "KinFit", "massLepW", 60, 0, 300, mWlep.mass(), evtWeight );
+    fillHisto(outFile_, cutflowType_, "KinFit", "massHadT", 60, 0, 300, mThad.mass(), evtWeight );
+    fillHisto(outFile_, cutflowType_, "KinFit", "massLepT", 60, 0, 300, mTlep.mass(), evtWeight );
     fillHisto(outFile_, cutflowType_, "KinFit", "mjj_kfit", 100, 0, 500, diJetKF.mass(), evtWeight );
     fillHisto(outFile_, cutflowType_, "KinFit","pt_mu", 100, 0, 1000, muonPt, evtWeight );
     fillHisto(outFile_, cutflowType_, "KinFit","eta_mu", 50, -5, 5, pfMuons[m_i].p4.eta(), evtWeight );
@@ -860,28 +939,61 @@ void hplusAnalyzer::CutFlowProcessor(TString url,  string myKey, TString cutflow
     //apply CTagging
     //https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation80XReReco
     //---------------------------------------------------//
-    double pfCCvsL0 = pfJets[indexForCTag0].bDiscriminator["pfCombinedCvsLJetTags"];
-    double pfCCvsL1 = pfJets[indexForCTag1].bDiscriminator["pfCombinedCvsLJetTags"];
-    double pfCCvsB0 = pfJets[indexForCTag0].bDiscriminator["pfCombinedCvsBJetTags"]; 
-    double pfCCvsB1 = pfJets[indexForCTag1].bDiscriminator["pfCombinedCvsBJetTags"];
-    // Fill the KinFit tree
-    mjj_KinFit = diJetKF.mass();
-    pfCCvsL0_KinFit = pfCCvsL0;
-    pfCCvsL1_KinFit = pfCCvsL1;
-    pfCCvsB0_KinFit = pfCCvsB0;
-    pfCCvsB1_KinFit = pfCCvsB1;
-    // pt, eta of the HadBjet
-    pt_bjetHad_KinFit = pt_bjetHad;
-    eta_bjetHad_KinFit = eta_bjetHad;
     Weight = evtWeight;
-    // btag disc value for Hadronic and leptonic bjet
-    /*
-    bdisc_HadbJet_KinFit = pfJets[indexForBTag].bDiscriminator["pfCombinedInclusiveSecondaryVertexV2BJetTags"];
-    bdisc_LepbJet_KinFit = pfJets[indexForLepBTag].bDiscriminator["pfCombinedInclusiveSecondaryVertexV2BJetTags"];
-    // invariant mass distribution for two bjets
-    MyLorentzVector diJet_bb = kfBjet[0]+kfJetsLepB[0];
-    mbb_KinFit = diJet_bb.M();
-    */
+    //hadronic
+    pt_b1   = kfBjet[0].pt();
+    eta_b1  = kfBjet[0].eta();
+    phi_b1  = kfBjet[0].phi();
+    E_b1    = kfBjet[0].E();
+    pt_j1   = kfLightJets[0].pt();
+    eta_j1  = kfLightJets[0].eta();
+    phi_j1  = kfLightJets[0].phi();
+    E_j1    = kfLightJets[0].E();
+    pt_j2   = kfLightJets[1].pt();
+    eta_j2  = kfLightJets[1].eta();
+    phi_j2  = kfLightJets[1].phi();
+    E_j2    = kfLightJets[1].E();
+    //leptonic
+    pt_b2   = kfJetsLepB[0].pt();
+    eta_b2  = kfJetsLepB[0].eta();
+    phi_b2  = kfJetsLepB[0].phi();
+    E_b2    = kfJetsLepB[0].E();
+    pt_l    = kfLepton[0].pt();
+    eta_l   = kfLepton[0].eta();
+    phi_l   = kfLepton[0].phi();
+    E_l     = kfLepton[0].E();
+    pt_v    = kfMet[0].pt();
+    eta_v   = kfMet[0].eta();
+    phi_v   = kfMet[0].phi();
+    E_v     = kfMet[0].E();
+    //others
+    MyLorentzVector p4Whad   = kfLightJets[0]+kfLightJets[1];
+    MyLorentzVector p4Wlep   = kfLepton[0]+kfMet[0];
+    MyLorentzVector p4b1b2   = kfBjet[0] + kfJetsLepB[0];
+    MyLorentzVector p4AllJets= kfJets[0]+kfJets[1]+kfJets[2] + kfJetsLepB[0];
+    MyLorentzVector p4All    = kfJets[0]+kfJets[1]+kfJets[2] + kfJetsLepB[0]+kfLepton[0]+kfMet[0];
+    m_j1j2    = p4Whad.mass();
+    m_lv        = p4Wlep.mass();
+    m_b1b2      = p4b1b2.mass();
+    m_b1j1j2b2lv= p4All.mass();
+    double phi_j1 = kfLightJets[0].phi();
+    double phi_j2 = kfLightJets[1].phi();
+    dPhi_j1j2   = deltaPhi12(phi_j1, phi_j2);
+    MT_j1j2     = p4Whad.Mt();
+    ht_b1b2j1j2 = p4AllJets.pt();
+    cTagDiscr1_j1 = pfJets[indexForCTag0].bDiscriminator["pfCombinedCvsLJetTags"];
+    cTagDiscr2_j1 = pfJets[indexForCTag1].bDiscriminator["pfCombinedCvsLJetTags"];
+    cTagDiscr1_j2 = pfJets[indexForCTag0].bDiscriminator["pfCombinedCvsBJetTags"]; 
+    cTagDiscr2_j2 = pfJets[indexForCTag1].bDiscriminator["pfCombinedCvsBJetTags"];
+    
+    int indexForBTag = 0, indexForLepBTag = 0;
+    for(size_t ij = 0; ij < j_final.size(); ij++){
+      int ind_ij = j_final[ij];
+      if(DeltaR(kfBjet[0], pfJets[ind_ij].p4) < 0.2)    indexForBTag = ind_ij;
+      if(DeltaR(kfJetsLepB[0], pfJets[ind_ij].p4) < 0.2)indexForLepBTag = ind_ij;
+    }
+    bTagDiscr_b1  = pfJets[indexForBTag].bDiscriminator["pfCombinedInclusiveSecondaryVertexV2BJetTags"];
+    bTagDiscr_b2  = pfJets[indexForLepBTag].bDiscriminator["pfCombinedInclusiveSecondaryVertexV2BJetTags"];
     //float mvaout = reader.EvaluateMVA("BDT");
     //fillHisto(outFile_, cutflowType_, "KinFit","mva_output",40,-1.0,1.0,mvaout,evtWeight);
     //t_BTag->Fill();
